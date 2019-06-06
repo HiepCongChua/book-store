@@ -1,0 +1,35 @@
+{
+  "name": "web-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.0.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.5.7",
+    "multer": "^1.4.1",
+    "validator": "^10.11.0"
+  },
+  "devDependencies": {
+    "env-cmd": "^9.0.1",
+    "jest": "^24.8.0",
+    "nodemon": "^1.19.0"
+  
+  },
+  "scripts": {
+    "start": "env-cmd -f ./config/.env nodemon src/index.js",
+    "test": "env-cmd -f ./config/test.env jest --watch --runInBand"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true,
+    "setupFilesAfterEnv": [
+      "./src/jest/defaultTimeout.js"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
