@@ -2,10 +2,11 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Product = require('./product');
 const userSchema = mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        // required: true,
         trim: true
     },
     email: {
@@ -21,15 +22,12 @@ const userSchema = mongoose.Schema({
         }
 
     },
-    username : {
+    username: {
       type : String,
-      unique : true,
-      required : true
     },
     phone : {
-     
         type : Number,
-        required : true
+        // required : true
     },
     password: {
         type: String,
@@ -49,19 +47,26 @@ const userSchema = mongoose.Schema({
                 required : true
             }
         }
-    ]
+    ],
+    type_account : {
+        type : String,
+        default : 'user'
+    }
 },{
     timestamps:true
 });
 
 
-
+userSchema.virtual('product',{
+    ref:'Product',
+    localField : '_id',
+    foreignField : 'creator'
+});
 
 userSchema.methods.toJSON = function(){//Tùy chỉnh lại các dữ liệu trước khi gửi cho client không gửi các dữ liệu bảo mật
     // toJSON là method trong prototype của object , mặc định là nó trả về một chuỗi kiểu json.
   const user = this;
   const userObject = user.toObject();
-  delete userObject.avatar;
   delete userObject.password;//Xóa password ra khỏi object
 //   delete userObject.tokens;//Xóa tokens ra khỏi object
   return userObject;
@@ -73,6 +78,7 @@ userSchema.methods.generateAuthToken = async function () {
         const user = this;
         const token = jwt.sign(
             { 
+            type : user.type_account,
             _id: user._id.toString() 
             },
             process.env.JWT_KEY

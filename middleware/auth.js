@@ -1,26 +1,12 @@
+    
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
-const authUser = async (req, res, next) => {
+const User = require('../src/models/user');
+const Admin = require('../src/models/admin');
+const Customer = require('../src/models/customer');
+const auth = async (req, res, next) => {
     try {
         const token = req.header('Authorization').replace('Bearer ','');//Lấy token ra khỏi header.
         const decode = jwt.verify(token,process.env.JWT_KEY);//dùng chữ kí để xác thực token client gửi lên.
-        const type_account = decode.type_account;//xác định loại tài khoản
-        const _id = decode._id
-        if(type_account==='admin')
-        {
-          if(req.originalUrl.split('/')==='product')
-          {
-              
-          }
-        }
-        if(type_account==='user')
-        {
-
-        }
-        if(type_account==='customer')
-        {
-
-        }
         const user = await User.findOne({ _id: decode._id, 'tokens.token': token });//xác thực người dùng thông qua id được chứa trong paload của token và so sánh token được gửi lên với token trong mảng tokens
         if (!user)
         {
@@ -34,5 +20,5 @@ const authUser = async (req, res, next) => {
     }
 }
 module.exports = {
-    authUser
+    auth
 };

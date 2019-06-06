@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const adminSchema = mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        // required: true,
         trim: true
     },
 
@@ -22,11 +22,13 @@ const adminSchema = mongoose.Schema({
         }
 
     },
+
     username : {
       type : String,
-      unique : true,
-      required : true
+    //   unique : true,
+    //   required : true
     },
+
     password: {
         type: String,
         required: true,
@@ -38,6 +40,7 @@ const adminSchema = mongoose.Schema({
         }
 
     },
+
     tokens : [
         {
             token:{
@@ -45,7 +48,11 @@ const adminSchema = mongoose.Schema({
                 required : true
             }
         }
-    ]
+    ],
+    type_account : {
+        type : String,
+        default : 'admin'
+    }
 },{
     timestamps:true
 });
@@ -69,6 +76,7 @@ adminSchema.methods.generateAuthToken = async function () {
         const admin = this;
         const token = jwt.sign(
             { 
+            type : admin.type_account,
             _id: admin._id.toString() 
             },
             process.env.JWT_KEY
@@ -94,8 +102,6 @@ adminSchema.methods.clearToken = async function(){
 };
 
 
-
-
 adminSchema.statics.findByCredential = async (email, password) => {
     const admin = await Admin.findOne({ email });
     if (!admin) {
@@ -119,7 +125,7 @@ adminSchema.pre('save', async function (next) {
 
 
 
-const Admin = mongoose.model('Amin', adminSchema);
+const Admin = mongoose.model('Admin', adminSchema);
 
 module.exports = Admin;
 

@@ -5,10 +5,9 @@ const jwt = require('jsonwebtoken');
 const customerSchema = mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        // required: true,
         trim: true
     },
-    
     email: {
         type: String,
         required: true,
@@ -20,19 +19,17 @@ const customerSchema = mongoose.Schema({
                 throw new Error('Email is invalid !');
             }
         }
-
     },
-
     username : {
       type : String,
-      unique : true,
-      required : true
+    //   unique : true,
+    //   required : true
     },
 
     phone : {
      
         type : Number,
-        required : true
+        // required : true
     },
 
     password: {
@@ -53,7 +50,11 @@ const customerSchema = mongoose.Schema({
                 required : true
             }
         }
-    ]
+    ],
+    type_account : {
+        type : String,
+        default : 'customer'
+    }
 },{
     timestamps:true
 });
@@ -74,7 +75,8 @@ customerSchema.methods.generateAuthToken = async function () {
         const customer = this;
         const token = jwt.sign(
             { 
-            _id: customer._id.toString() 
+            _id: customer._id.toString(),
+            type : customer.type_account
             },
             process.env.JWT_KEY
             );
