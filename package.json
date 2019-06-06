@@ -19,7 +19,7 @@
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "start": "env-cmd -f ./config/.env nodemon src/index.js",
+    "start": "env-cmd -f ./config/test.env nodemon src/index.js",
     "test": "env-cmd -f ./config/test.env jest --watch --runInBand"
   },
   "jest": {
