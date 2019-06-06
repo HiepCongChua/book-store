@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../src/models/user');
 const Admin = require('../src/models/admin');
 const Customer = require('../src/models/customer');
+
 const auth = async (req, res, next) => {
     try {
         const token = req.header('Authorization').replace('Bearer ','');//Lấy token ra khỏi header.
@@ -19,9 +20,11 @@ const auth = async (req, res, next) => {
         res.status(401).send({ error: 'Please authenticate !' });
     }
 };
+
 const authenticate = async ({username,password})=>{
   
 };
+
 module.exports = {
     auth
 };

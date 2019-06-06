@@ -34,8 +34,10 @@ const errorHandler = (err,req,res,next)=>{
 };
 
 const role = {
+
     Admin:'Admin',
     User:'User'
+    
 }
 
 module.exports = {
