@@ -1,14 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Admin = require('../models/admin');
-router.post('/admin',async (req,res,next)=>{
-
-});
-
-
-
-
-
-
-
+const adminController = require('../controller/admin');
+router.get('/admin',adminController.getAdmin);
 module.exports = router;

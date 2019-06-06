@@ -26,12 +26,11 @@ const userSchema = mongoose.Schema({
       unique : true,
       required : true
     },
-    contact : {
+    phone : {
      
-        type : String,
+        type : Number,
         required : true
     },
-
     password: {
         type: String,
         required: true,
