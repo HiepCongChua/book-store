@@ -25,13 +25,10 @@ const customerSchema = mongoose.Schema({
     //   unique : true,
     //   required : true
     },
-
     phone : {
-     
         type : Number,
         // required : true
     },
-
     password: {
         type: String,
         required: true,
@@ -52,9 +49,20 @@ const customerSchema = mongoose.Schema({
         }
     ],
     type_account : {
-        type : String,
-        default : 'customer'
-    }
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'role',
+        required : true
+    },
+    cart : [
+        {
+
+        }
+    ],
+    order : [
+        {
+            
+        }
+    ]
 },{
     timestamps:true
 });
@@ -76,7 +84,7 @@ customerSchema.methods.generateAuthToken = async function () {
         const token = jwt.sign(
             { 
             _id: customer._id.toString(),
-            type : customer.type_account
+            type_account : customer.type_account
             },
             process.env.JWT_KEY
             );

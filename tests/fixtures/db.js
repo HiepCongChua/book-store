@@ -15,6 +15,7 @@ const userOne = {
     name: 'MikeUser',
     email: 'user@gmail.com',
     password: '1234567',
+    type_account: mongoose.Types.ObjectId('5cf9d129440f46410c83aeb7'),
     tokens: [{
         token: jwt.sign({ _id: userOneId , type :'user' }, process.env.JWT_KEY)
     }]
@@ -26,6 +27,7 @@ const adminOne = {
     name: 'MikeAdmin',
     email: 'admin@gmail.com',
     password: '1234567',
+    type_account: mongoose.Types.ObjectId('5cf9d124440f46410c83aeb6'),
     tokens: [{
         token: jwt.sign({ _id: adminOneId , type :'admin' }, process.env.JWT_KEY)
     }]
@@ -37,6 +39,7 @@ const customerOne = {
     name: 'MikeCustomer',
     email: 'customer@gmail.com',
     password: '1234567',
+    type_account: mongoose.Types.ObjectId('5cf9d130440f46410c83aeb8'),
     tokens: [{
         token: jwt.sign({ _id: customerOneId , type :'customer' }, process.env.JWT_KEY)
     }]
@@ -46,7 +49,8 @@ const productOne = {
     _id : productOneId,
     title : 'Thiên thần và ác quỷ',
     author : 'Dan Brown',
-    topic :'Trinh thám'
+    topic :'Trinh thám',
+    creator : mongoose.Types.ObjectId(userOneId.toString())
 }
 const setupDatabase = async () => {
     await User.deleteMany();

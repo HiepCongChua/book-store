@@ -49,8 +49,9 @@ const userSchema = mongoose.Schema({
         }
     ],
     type_account : {
-        type : String,
-        default : 'user'
+       type : mongoose.Schema.Types.ObjectId,
+       ref : 'role',
+       required : true
     }
 },{
     timestamps:true
@@ -78,8 +79,8 @@ userSchema.methods.generateAuthToken = async function () {
         const user = this;
         const token = jwt.sign(
             { 
-            type : user.type_account,
-            _id: user._id.toString() 
+            _id: user._id.toString(),
+            type_account : user.type_account
             },
             process.env.JWT_KEY
             );
@@ -104,8 +105,6 @@ userSchema.methods.clearToken = async function(){
 };
 
 
-
-
 userSchema.statics.findByCredential = async (email, password) => {
     const user = await User.findOne({ email });
     if (!user) {
@@ -126,10 +125,6 @@ userSchema.pre('save', async function (next) {
     }
     next();
 });
-
-
-
 const User = mongoose.model('User', userSchema);
-
 module.exports = User;
 

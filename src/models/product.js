@@ -51,6 +51,10 @@ const productSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
+    },
+    publisher : {//người public
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Admin'
     }
 }, {
         timestamps: true

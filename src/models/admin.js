@@ -50,8 +50,9 @@ const adminSchema = mongoose.Schema({
         }
     ],
     type_account : {
-        type : String,
-        default : 'admin'
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'role',
+        required : true
     }
 },{
     timestamps:true
@@ -76,8 +77,8 @@ adminSchema.methods.generateAuthToken = async function () {
         const admin = this;
         const token = jwt.sign(
             { 
-            type : admin.type_account,
-            _id: admin._id.toString() 
+            _id: admin._id.toString(),
+            type_account : admin.type_account
             },
             process.env.JWT_KEY
             );
@@ -85,11 +86,9 @@ adminSchema.methods.generateAuthToken = async function () {
         await admin.save();
         return token;
     } catch (error) {
-        console.log(error);
         throw new Error(error);
     }
 };
-
 
 adminSchema.methods.clearToken = async function(){
     try {

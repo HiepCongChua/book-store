@@ -28,7 +28,7 @@ const errorHandler = (err,req,res,next)=>{
         return res.status(400).json({message:err});
     }
     if(err.name === 'UnauthorizedError'){
-        return res.status(400).json({message:'Invalid token'}0)
+        return res.status(400).json({message:'Invalid token'})
     }
     return res.status(500).json({message:err.message});
 };
