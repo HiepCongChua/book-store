@@ -1,26 +1,17 @@
 
-const expressJWT = require('express-jwt');
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SEND_GRID_API);
 
-const authorize = (roles=[])=>{
-    //Roles được truyền vào hàm có thể là một chuỗi Ví dụ Role.User hoặc User
-    //Hoặc có thể là một mảng (mặc định không truyền gì thì nó là một mảng trống)
-    //Ví dụ ([Role.Admin,Role.User] or ['Admin','User'])
-    if(typeof roles === 'string')
-    {
-        roles = [roles];
-    }
-    return [
-        expressJWT({secret:process.env.JWT_KEY})
-        ,
-        (req,res,next)=>{
-            if(roles.length&&!roles.includes(req.user.roles)){
-                return res.status(401).json({message:'Unathorized'});
-            }
-        }
-        ,
-        next()
-    ]
 
+
+const sendMail = async(email)=>{
+    const msg = {
+    to: email,
+    from: 'bookStore@node.com',
+    subject: `The first greeting from us !`,
+    html: `<h1>Congratulations on successful registration of your account on Book Store</h1>`
+   };
+    return await sgMail.send(msg);
 }
 
 const errorHandler = (err,req,res,next)=>{
@@ -33,15 +24,10 @@ const errorHandler = (err,req,res,next)=>{
     return res.status(500).json({message:err.message});
 };
 
-const role = {
 
-    Admin:'Admin',
-    User:'User'
-    
-}
+
 
 module.exports = {
-    authorize,
     errorHandler,
-    role
+    sendMail
 }
