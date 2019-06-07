@@ -16,9 +16,9 @@ const productSchema = mongoose.Schema({
     //   type : Number,
     //   required : true
     // },
-    // publishedDate : {
-    //     type : Date,
-    // },
+    publishedDate : {
+        type : Date,
+    },
     // thumbnailUrl: {
     //     type: String,
     //     required: true,
@@ -30,15 +30,17 @@ const productSchema = mongoose.Schema({
          // đã public (1)
          //đã bị user xóa (2) , user xóa nhưng không bị xóa hẳn mà admin vẫn có thể xem
          //Bị admin ẩn đi (3)
-         
-
       type : Number,
+      required : true,
       default : 0
     },
-    // "hasDelete":{
-    //     type : Boolean,
-    //     default : true,
-    // },
+    "hasDelete":{
+        //true : đã user xóa khỏi gian hàng , nhưng admin vẫn có thể xem được.
+        //false : vẫn tồn tại
+        //admin không có quyền khôi phục một sản phẩm đã bị ẩn khỏi gian hàng của user.
+        type : Boolean,
+        default : false,
+    },
     author: {//tác giả
         type: String,
         required: true
