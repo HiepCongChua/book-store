@@ -43,7 +43,7 @@ const authAccount = function (roles=[]){//Xác thực type của account gửi l
    return [
      (req,res,next)=>{
         if(roles.length && !roles.includes(req.type_account)){
-            return res.status(401).json({message:'Unauthorized !'});
+            return res.status(401).json({message:'You do not have full access !'});
         }
         next();
        }
